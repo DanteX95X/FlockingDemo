@@ -13,9 +13,6 @@ public:
 	void HandleEvents(SDL_Event& event, State& state) override;
 	void Update(State& state) override;
 	
-	
-	static std::set<Agent*> agents;
-	
 private:
 	Vector2 velocity;
 	

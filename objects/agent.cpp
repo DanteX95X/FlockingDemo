@@ -3,17 +3,13 @@
 #include <iostream>
 #include "flocker_state.h"
 
-std::set<Agent*> Agent::agents;
-
 Agent::Agent(Vector2 initPosition, Vector2 initSize, std::string spritePath, Vector2 initVelocity)
 	: Actor(initPosition, initSize, spritePath), velocity{initVelocity}
 {
-	Agent::agents.insert(this);
 }
 
 Agent::~Agent()
 {
-	agents.erase(this);
 }
 
 void Agent::Update(State& state)
