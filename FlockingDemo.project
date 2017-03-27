@@ -18,6 +18,10 @@
     <File Name="objects/actor.cpp"/>
     <File Name="objects/prop.h"/>
     <File Name="objects/agent.h"/>
+    <File Name="objects/agent.cpp"/>
+    <File Name="objects/state.h"/>
+    <File Name="objects/flocker_state.h"/>
+    <File Name="objects/flocker_state.cpp"/>
   </VirtualDirectory>
   <VirtualDirectory Name="utilities">
     <File Name="utilities/timer.h"/>

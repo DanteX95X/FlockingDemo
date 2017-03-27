@@ -12,7 +12,7 @@ public:
 	Prop(std::string spritePath);
     Prop(Vector2 initPosition, Vector2 initSize);
 
-	virtual void Update() = 0;
+	virtual void Update(State& state) = 0;
 	virtual void Render(SDL_Renderer* renderer);
 
 	Vector2 GetPosition();

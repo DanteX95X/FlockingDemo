@@ -60,7 +60,8 @@ AS       := /usr/bin/as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/objects_prop.cpp$(ObjectSuffix) $(IntermediateDirectory)/objects_object.cpp$(ObjectSuffix) $(IntermediateDirectory)/objects_actor.cpp$(ObjectSuffix) $(IntermediateDirectory)/utilities_timer.cpp$(ObjectSuffix) $(IntermediateDirectory)/utilities_vector2.cpp$(ObjectSuffix) $(IntermediateDirectory)/utilities_texture_flyweight.cpp$(ObjectSuffix) $(IntermediateDirectory)/window_window.cpp$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/objects_prop.cpp$(ObjectSuffix) $(IntermediateDirectory)/objects_object.cpp$(ObjectSuffix) $(IntermediateDirectory)/objects_actor.cpp$(ObjectSuffix) $(IntermediateDirectory)/objects_agent.cpp$(ObjectSuffix) $(IntermediateDirectory)/objects_flocker_state.cpp$(ObjectSuffix) $(IntermediateDirectory)/utilities_timer.cpp$(ObjectSuffix) $(IntermediateDirectory)/utilities_vector2.cpp$(ObjectSuffix) $(IntermediateDirectory)/utilities_texture_flyweight.cpp$(ObjectSuffix) $(IntermediateDirectory)/window_window.cpp$(ObjectSuffix) \
+	
 
 
 
@@ -122,6 +123,22 @@ $(IntermediateDirectory)/objects_actor.cpp$(DependSuffix): objects/actor.cpp
 
 $(IntermediateDirectory)/objects_actor.cpp$(PreprocessSuffix): objects/actor.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/objects_actor.cpp$(PreprocessSuffix)objects/actor.cpp
+
+$(IntermediateDirectory)/objects_agent.cpp$(ObjectSuffix): objects/agent.cpp $(IntermediateDirectory)/objects_agent.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/dante/codelite/test/FlockingDemo/objects/agent.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/objects_agent.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/objects_agent.cpp$(DependSuffix): objects/agent.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/objects_agent.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/objects_agent.cpp$(DependSuffix) -MM objects/agent.cpp
+
+$(IntermediateDirectory)/objects_agent.cpp$(PreprocessSuffix): objects/agent.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/objects_agent.cpp$(PreprocessSuffix)objects/agent.cpp
+
+$(IntermediateDirectory)/objects_flocker_state.cpp$(ObjectSuffix): objects/flocker_state.cpp $(IntermediateDirectory)/objects_flocker_state.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/dante/codelite/test/FlockingDemo/objects/flocker_state.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/objects_flocker_state.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/objects_flocker_state.cpp$(DependSuffix): objects/flocker_state.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/objects_flocker_state.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/objects_flocker_state.cpp$(DependSuffix) -MM objects/flocker_state.cpp
+
+$(IntermediateDirectory)/objects_flocker_state.cpp$(PreprocessSuffix): objects/flocker_state.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/objects_flocker_state.cpp$(PreprocessSuffix)objects/flocker_state.cpp
 
 $(IntermediateDirectory)/utilities_timer.cpp$(ObjectSuffix): utilities/timer.cpp $(IntermediateDirectory)/utilities_timer.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/dante/codelite/test/FlockingDemo/utilities/timer.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/utilities_timer.cpp$(ObjectSuffix) $(IncludePath)

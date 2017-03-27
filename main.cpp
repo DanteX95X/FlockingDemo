@@ -2,8 +2,9 @@
 #include "window/window.h"
 #include "objects/prop.h"
 #include "utilities/timer.h"
-#include "objects/actor.h"
+#include "objects/agent.h"
 #include <queue>
+#include "objects/flocker_state.h"
 
 int main(int argc, char** argv)
 {
@@ -11,7 +12,9 @@ int main(int argc, char** argv)
 
 	SDL_Event event;
 	Window window;
-
+	
+	FlockerState flock;
+	
 	while( !isDone )
 	{
 		while(SDL_PollEvent(&event))
@@ -20,12 +23,14 @@ int main(int argc, char** argv)
 			{
 				isDone = true;
 			}
+			flock.HandleEvents(event);
 		}
 
 		Timer::Instance().Update();
+		flock.Update();
 
 		SDL_RenderClear(window.GetRenderer());
-
+		flock.Render(window.GetRenderer());
 		SDL_RenderPresent(window.GetRenderer());
 	}
 
