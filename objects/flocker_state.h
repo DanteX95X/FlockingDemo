@@ -14,6 +14,10 @@ public:
 	void Render(SDL_Renderer* renderer) override;
 	
 	const std::vector<Agent>& GetAgents();
+	
+	Vector2 ComputeAlignement(std::size_t index);
+	Vector2 ComputeCohesion(std::size_t index);
+	Vector2 ComputeSeparation(std::size_t index);
 private:
 	std::vector<Agent> agents;
 };

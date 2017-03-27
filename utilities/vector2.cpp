@@ -1,9 +1,17 @@
 #include "vector2.h"
+#include <math.h>
 
 Vector2::Vector2(double xInit, double yInit)
 	: x{xInit}, y{yInit}
 {
 
+}
+
+void Vector2::Normalize()
+{
+	double norm = sqrt(x*x + y*y);
+	x /= norm;
+	y /= norm;
 }
 
 Vector2& Vector2::operator += (const Vector2& vector)
@@ -22,6 +30,13 @@ Vector2& Vector2::operator *= (const double coefficient)
 {
 	x *= coefficient;
 	y *= coefficient;
+	return *this;
+}
+
+Vector2& Vector2::operator /= (const double coefficient)
+{
+	x /= coefficient;
+	y /= coefficient;
 	return *this;
 }
 
@@ -57,6 +72,10 @@ const Vector2 operator * (const double coefficient, const Vector2& vector)
 	return vector * coefficient;
 }
 
+const Vector2 operator / (const Vector2& vector, const double coefficient)
+{
+	return Vector2(vector.x / coefficient, vector.y / coefficient);
+}
 
 bool operator == (const Vector2& first, const Vector2& second)
 {

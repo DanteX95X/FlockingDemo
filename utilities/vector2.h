@@ -7,10 +7,13 @@ struct Vector2
 {
 public:
 	Vector2(double xInit = 0, double yInit = 0);
+	
+	void Normalize();
 
 	Vector2& operator += (const Vector2& vector);
 	Vector2& operator -= (const Vector2& vector);
 	Vector2& operator *= (const double coefficient);
+	Vector2& operator /= (const double coefficient);
 	Vector2& operator = (const Vector2& vector);
 
 	friend const Vector2 operator - (const Vector2& vector);
@@ -18,6 +21,7 @@ public:
 	friend const Vector2 operator + (const Vector2& first, const Vector2& second);
 	friend const Vector2 operator * (const Vector2& vector, const double coefficient);
 	friend const Vector2 operator * (const double coefficient, const Vector2& vector);
+	friend const Vector2 operator / (const Vector2& vector, const double coefficient);
 
 	friend bool operator == (const Vector2& first, const Vector2& second);
 	friend bool operator != (const Vector2& first, const Vector2& second);
