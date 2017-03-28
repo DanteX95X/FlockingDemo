@@ -7,9 +7,6 @@ FlockerState::FlockerState(double size, int rows, int columns)
 	for(int i = 0; i < rows; ++i)
 		for(int j = 0; j < columns; ++j)
 			agents.push_back(Agent{{320+size*i, 240+size*j}, {size,size}, "hex.png", 100, {0,0}});
-	//agents.push_back(Agent{{330, 230}, {size,size}, "hex.png", 40, {0,0}});
-	//for(int i = 0; i < 10; ++i)
-	//agents.push_back(Agent{{320.0+i, 240.0+i}, {size,size}, "hex.png", 100, {0,0}});
 }
 
 void FlockerState::HandleEvents(SDL_Event& event)
@@ -22,27 +19,49 @@ void FlockerState::HandleEvents(SDL_Event& event)
 
 void FlockerState::Update()
 {	
+	Vector2 centerOfMass{0,0};
+	int count = 0;
 	for(std::size_t i = 0; i < agents.size(); ++i)
 	{
-		/*Vector2 separation = ComputeSeparation(i);
-		Vector2 cohesion = ComputeCohesion(i);
-		Vector2 alignement = ComputeAlignement(i);
-		Vector2 velocity = agents[i].GetVelocity();
-		agents[i].SetVelocity(velocity + (separation + cohesion + alignement)*Timer::Instance().GetDeltaTime());*/
-		
-		Vector2 separation = ComputeSeparation(i) * 1.5;
+		centerOfMass += agents[i].GetPosition();
+		++count;
+	}
+	centerOfMass /= count;
+	
+	double shortestDistance = 100000;
+	std::size_t index = -1;
+	for(std::size_t i = 0; i < agents.size(); ++i)
+	{
+		double distance = (agents[i].GetPosition() - centerOfMass).Length();
+		if( distance < shortestDistance)
+		{
+			shortestDistance = distance;
+			index = i;
+		}
+	}
+	
+	int x, y;
+	SDL_GetMouseState(&x, &y);
+	Vector2 target{static_cast<double>(x),static_cast<double>(y)};
+	Vector2 steering = agents[index].Seek(target);
+	std::cout << steering << "\n";
+	for(std::size_t i = 0; i < agents.size(); ++i)
+	{
+		agents[i].AddAcceleration(steering);
+	}
+	
+	
+	
+	for(std::size_t i = 0; i < agents.size(); ++i)
+	{
+		Vector2 separation = ComputeSeparation(i) * 1;
 		Vector2 alignement = ComputeAlignement(i) * 1;
-		Vector2 cohesion = ComputeCohesion(i) * 1;
+		Vector2 cohesion = ComputeCohesion(i) * 0.8;
 		
 		agents[i].AddAcceleration(separation + alignement + cohesion);
 		
 		agents[i].Update(*this);
 	}
-	
-	/*for(std::size_t i = 0; i < agents.size(); ++i)
-	{
-		agents[i].Update(*this);
-	}*/
 }
 
 void FlockerState::Render(SDL_Renderer* renderer)

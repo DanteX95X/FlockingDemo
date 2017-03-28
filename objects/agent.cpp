@@ -20,6 +20,13 @@ void Agent::Update(State& state)
 	FlockerState* flock = static_cast<FlockerState*>(&state);
 	std::vector<Agent> agents = flock->GetAgents();
 	
+	/*int x, y;
+	SDL_GetMouseState(&x, &y);
+	Vector2 target{static_cast<double>(x),static_cast<double>(y)};
+	std::cout << Seek(target) << "\n";
+	AddAcceleration(Seek(target)*0.7);*/
+	
+	
 	velocity += acceleration;
 	double magnitude = velocity.Length();
 	if( magnitude > maxSpeed)
@@ -46,14 +53,6 @@ void Agent::HandleEvents(SDL_Event& event, State& state)
 	FlockerState* flock = static_cast<FlockerState*>(&state);
 	std::vector<Agent> agents = flock->GetAgents();
 	
-	if(event.type == SDL_MOUSEBUTTONDOWN)
-	{	
-		int x, y;
-		SDL_GetMouseState(&x, &y);
-		Vector2 target{static_cast<double>(x),static_cast<double>(y)};
-		std::cout << Seek(target) << "\n";
-		acceleration += Seek(target);
-	}
 }
 
 bool Agent::IsInRange(Vector2 point)
