@@ -8,7 +8,8 @@ struct Vector2
 public:
 	Vector2(double xInit = 0, double yInit = 0);
 	
-	void Normalize();
+	Vector2 Normalize();
+	double Length();
 
 	Vector2& operator += (const Vector2& vector);
 	Vector2& operator -= (const Vector2& vector);

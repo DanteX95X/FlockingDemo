@@ -7,11 +7,20 @@ Vector2::Vector2(double xInit, double yInit)
 
 }
 
-void Vector2::Normalize()
+Vector2 Vector2::Normalize()
 {
 	double norm = sqrt(x*x + y*y);
-	x /= norm;
-	y /= norm;
+	if(norm > 0)
+	{
+		x /= norm;
+		y /= norm;
+	}
+	return *this;
+}
+
+double Vector2::Length()
+{
+	return sqrt(x*x + y*y);
 }
 
 Vector2& Vector2::operator += (const Vector2& vector)

@@ -13,7 +13,7 @@ int main(int argc, char** argv)
 	SDL_Event event;
 	Window window;
 	
-	FlockerState flock;
+	FlockerState flock(30, 3,3);
 	
 	while( !isDone )
 	{

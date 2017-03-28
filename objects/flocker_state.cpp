@@ -1,12 +1,11 @@
 #include "flocker_state.h"
+#include "utilities/timer.h"
 
-
-FlockerState::FlockerState()
+FlockerState::FlockerState(double size, int rows, int columns)
 {
-	agents.push_back(Agent{{320,240}, {10, 10}, "hex.png", 100, {0,0}});
-	agents.push_back(Agent{{330,240}, {10, 10}, "hex.png", 100, {0,0}});
-	agents.push_back(Agent{{320,250}, {10, 10}, "hex.png", 100, {0,0}});
-	agents.push_back(Agent{{330,250}, {10, 10}, "hex.png", 100, {0,0}});
+	for(int i = 0; i < rows; ++i)
+		for(int j = 0; j < columns; ++j)
+			agents.push_back(Agent{{320+size*i, 240+size*j}, {size,size}, "hex.png", 40, {0,0}});
 }
 
 void FlockerState::HandleEvents(SDL_Event& event)
@@ -15,23 +14,36 @@ void FlockerState::HandleEvents(SDL_Event& event)
 	{
 		agent.HandleEvents(event, *this);
 	}
+	
+	/*if(event.type == SDL_MOUSEBUTTONDOWN)
+	{	
+		int x, y;
+		SDL_GetMouseState(&x, &y);
+		Vector2 target{static_cast<double>(x),static_cast<double>(y)};
+		Vector2 velocity = target - agents[0].GetPosition();
+		velocity.Normalize();
+		agents[0].SetVelocity(velocity);
+	}*/
 }
 
 void FlockerState::Update()
 {
-	for(Agent& agent : agents)
+	/*for(Agent& agent : agents)
 	{
 		agent.Update(*this);
-	}
+	}*/
 	
 	for(std::size_t i = 0; i < agents.size(); ++i)
 	{
 		Vector2 alignement = ComputeAlignement(i);
 		Vector2 cohesion = ComputeCohesion(i);
 		Vector2 separation = ComputeSeparation(i);
-		Vector2 newVelocity = alignement + cohesion + separation;
-		//newVelocity.Normalize();
+		Vector2 newVelocity = agents[i].GetVelocity() + (alignement + cohesion + separation);//*Timer::Instance().GetDeltaTime();
+		newVelocity.Normalize();
 		agents[i].SetVelocity(newVelocity);
+		std::cout << i << " " << newVelocity << "\n";
+		
+		agents[i].Update(*this);
 	}
 }
 
@@ -61,7 +73,7 @@ Vector2 FlockerState::ComputeAlignement(std::size_t index)
 	
 	if(neighbourCount > 0)
 		alignement /= neighbourCount;
-		
+	alignement.Normalize();
 	return alignement;
 }
 
@@ -85,6 +97,7 @@ Vector2 FlockerState::ComputeCohesion(std::size_t index)
 		centerOfMass /= neighbourCount;
 		
 	Vector2 cohesion = centerOfMass - agents[index].GetPosition();
+	cohesion.Normalize();
 	return cohesion;
 }
 
@@ -107,7 +120,7 @@ Vector2 FlockerState::ComputeSeparation(std::size_t index)
 	
 	if(neighbourCount > 0)
 		separation /= neighbourCount;
-	
+	separation.Normalize();
 	return separation;
 }
 

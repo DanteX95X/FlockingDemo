@@ -17,7 +17,7 @@ Prop::Prop(Vector2 initPosition, Vector2 initSize)
 
 void Prop::Render(SDL_Renderer* renderer)
 {
-	SDL_Rect destination = { static_cast<int>(position.x), static_cast<int>(position.y), static_cast<int>(size.x), static_cast<int>(size.y) };
+	SDL_Rect destination = { static_cast<int>(position.x-size.x/2), static_cast<int>(position.y-size.y/2), static_cast<int>(size.x), static_cast<int>(size.y) };
 	SDL_RenderCopy(renderer, texture, nullptr, &destination);
 }
 
