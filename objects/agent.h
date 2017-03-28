@@ -18,6 +18,8 @@ public:
 	Vector2 GetVelocity();
 	void SetVelocity(Vector2 newVelocity);
 	
+	double GetRadius();
+	
 private:
 	Vector2 velocity;
 	double radius;

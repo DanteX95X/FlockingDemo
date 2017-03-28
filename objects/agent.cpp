@@ -17,7 +17,7 @@ void Agent::Update(State& state)
 	FlockerState* flock = static_cast<FlockerState*>(&state);
 	std::vector<Agent> agents = flock->GetAgents();
 	
-	position += velocity * 100 * Timer::Instance().GetDeltaTime();
+	position += velocity * Timer::Instance().GetDeltaTime();
 	
 }
 
@@ -31,8 +31,8 @@ void Agent::HandleEvents(SDL_Event& event, State& state)
 		int x, y;
 		SDL_GetMouseState(&x, &y);
 		Vector2 target{static_cast<double>(x),static_cast<double>(y)};
-		velocity = target - position;
-		velocity.Normalize();
+		Vector2 desiredVelocity = (target - position).Normalize() * 100;
+		velocity += (desiredVelocity - velocity).Normalize() * 100;
 	}
 }
 
@@ -43,3 +43,5 @@ bool Agent::IsInRange(Vector2 point)
 
 Vector2 Agent::GetVelocity() { return velocity; }
 void Agent::SetVelocity(Vector2 newVelocity) { velocity = newVelocity; }
+
+double Agent::GetRadius() { return radius; }

@@ -56,32 +56,32 @@ Vector2& Vector2::operator = (const Vector2& vector)
 	return *this;
 }
 
-const Vector2 operator - (const Vector2& vector)
+Vector2 operator - (const Vector2& vector)
 {
 	return Vector2(-vector.x, -vector.y);
 }
 
-const Vector2 operator + (const Vector2& first, const Vector2& second)
+Vector2 operator + (const Vector2& first, const Vector2& second)
 {
 	return Vector2(first.x + second.x, first.y + second.y);
 }
 
-const Vector2 operator - (const Vector2& first, const Vector2& second)
+Vector2 operator - (const Vector2& first, const Vector2& second)
 {
 	return Vector2(first.x - second.x, first.y - second.y);
 }
 
-const Vector2 operator * (const Vector2& vector, const double coefficient)
+Vector2 operator * (const Vector2& vector, const double coefficient)
 {
 	return Vector2(vector.x * coefficient, vector.y * coefficient);
 }
 
-const Vector2 operator * (const double coefficient, const Vector2& vector)
+Vector2 operator * (const double coefficient, const Vector2& vector)
 {
 	return vector * coefficient;
 }
 
-const Vector2 operator / (const Vector2& vector, const double coefficient)
+Vector2 operator / (const Vector2& vector, const double coefficient)
 {
 	return Vector2(vector.x / coefficient, vector.y / coefficient);
 }
