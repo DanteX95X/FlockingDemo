@@ -5,15 +5,19 @@
 #include "objects/agent.h"
 #include <queue>
 #include "objects/flocker_state.h"
+#include <stdlib.h>
+#include <time.h>
 
 int main(int argc, char** argv)
 {
+	srand(time(nullptr));
+	
 	bool isDone = false;
 
 	SDL_Event event;
 	Window window;
 	
-	FlockerState flock(10, 2,2);
+	FlockerState flock(10, 1,1);
 	
 	while( !isDone )
 	{
