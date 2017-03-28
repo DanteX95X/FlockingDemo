@@ -3,12 +3,9 @@
 #include <iostream>
 #include "flocker_state.h"
 
-//change parameters
 Agent::Agent(Vector2 initPosition, Vector2 initSize, std::string spritePath, double initRadius, Vector2 initVelocity)
 	: Actor(initPosition, initSize, spritePath), velocity{initVelocity}, acceleration{0,0}, radius{initRadius}, maxSpeed{200}, maxForce{3}
 {
-	//velocity = {static_cast<double>(rand()%2000 - 1000)/10, static_cast<double>(rand()%200 - 100 )/10};
-	//velocity = {static_cast<double>(100), static_cast<double>(100)};
 }
 
 Agent::~Agent()
@@ -19,13 +16,6 @@ void Agent::Update(State& state)
 {
 	FlockerState* flock = static_cast<FlockerState*>(&state);
 	std::vector<Agent> agents = flock->GetAgents();
-	
-	/*int x, y;
-	SDL_GetMouseState(&x, &y);
-	Vector2 target{static_cast<double>(x),static_cast<double>(y)};
-	std::cout << Seek(target) << "\n";
-	AddAcceleration(Seek(target)*0.7);*/
-	
 	
 	velocity += acceleration;
 	double magnitude = velocity.Length();

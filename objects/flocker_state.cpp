@@ -85,26 +85,7 @@ Vector2 FlockerState::Seek(std::size_t index, Vector2 target)
 }
 
 Vector2 FlockerState::ComputeAlignement(std::size_t index)
-{
-	/*Vector2 alignement{0,0};
-	int neighbourCount = 0;
-	for(std::size_t i = 0; i < agents.size(); ++i)
-	{
-		if(index != i)
-		{
-			if(agents[index].IsInRange(agents[i].GetPosition()))
-			{
-				alignement += agents[i].GetVelocity();
-				++neighbourCount;
-			}
-		}
-	}
-	
-	if(neighbourCount > 0)
-		alignement /= neighbourCount;
-	//alignement.Normalize();
-	return alignement;*/
-	
+{	
 	Agent& agent = agents[index];
 	double neighbourhood = 50;
 	Vector2 result{0,0};
@@ -137,45 +118,7 @@ Vector2 FlockerState::ComputeAlignement(std::size_t index)
 }
 
 Vector2 FlockerState::ComputeCohesion(std::size_t index)
-{
-	/*Agent& agent = agents[index];
-	Vector2 centerOfMass{agent.GetPosition()};
-	double maxCohesion = agent.GetSize().x * 2;
-	int neighbourCount = 1;
-	const double maxSpeed = 1;
-	//const double maxForce = 10;
-	
-	for(std::size_t i = 0; i < agents.size(); ++i)
-	{
-		if(index != i)
-		{
-			Agent& another = agents[i];
-			double distance = (agent.GetPosition() - another.GetPosition()).Length();
-			
-			if( distance < maxCohesion)
-			{
-				centerOfMass += agents[i].GetPosition();
-				++neighbourCount;
-			}
-		}
-	}
-	
-	if( neighbourCount == 1)
-		return Vector2{0,0};
-	
-	centerOfMass /= neighbourCount;
-		
-	//Vector2 cohesion = centerOfMass - agents[index].GetPosition();
-	//cohesion.Normalize();
-	Vector2 desiredVelocity = centerOfMass - agent.GetPosition();
-	desiredVelocity *= maxSpeed / desiredVelocity.Length();
-	
-	Vector2 cohesion = desiredVelocity - agent.GetVelocity();
-	cohesion.Normalize();
-	return cohesion;
-	//return cohesion * (maxForce / maxSpeed);
-	return desiredVelocity;*/
-	
+{	
 	Agent& agent = agents[index];
 	double neighbourhood = 50;
 	Vector2 centerOfMass{0,0};
@@ -195,40 +138,13 @@ Vector2 FlockerState::ComputeCohesion(std::size_t index)
 	if(count > 0)
 	{
 		centerOfMass /= count;
-		return agent.Seek(centerOfMass); //SEEK
+		return agent.Seek(centerOfMass);
 	}	
 	return Vector2{0,0};
 }
 
 Vector2 FlockerState::ComputeSeparation(std::size_t index)
-{
-	/*Vector2 separation{0,0};
-	int neighbourCount = 0;
-	Agent& agent = agents[index];
-	double minSeparation = agent.GetSize().x;
-	
-	for(std::size_t i = 0; i < agents.size(); ++i)
-	{
-		if(index != i)
-		{
-			Agent& another = agents[i];
-			double distance = (agent.GetPosition() - another.GetPosition()).Length();
-			//if(agents[index].IsInRange(agents[i].GetPosition()))
-			if(distance < minSeparation && distance > 0 )
-			{
-				separation += (agent.GetPosition() - another.GetPosition())/agent.GetRadius();
-				++neighbourCount;
-			}
-		}
-	}
-	
-	if(neighbourCount == 0)
-		return Vector2{0,0};
-	
-	separation /= neighbourCount;
-	//separation.Normalize();
-	return separation;*/
-	
+{	
 	const double desiredSeparation = 25;
 	Vector2 steering{0,0};
 	Agent& agent = agents[index];
