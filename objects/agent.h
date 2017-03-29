@@ -12,6 +12,7 @@ public:
 	
 	void HandleEvents(SDL_Event& event, State& state) override;
 	void Update(State& state) override;
+	void Render(SDL_Renderer* renderer) override;
 	
 	bool IsInRange(Vector2 point);
 	Vector2 Seek(Vector2 target);
@@ -32,6 +33,8 @@ private:
 	double radius;
 	const double maxSpeed;
 	const double maxForce;
+	
+	double angle;
 };
 
 #endif //AGENT_H

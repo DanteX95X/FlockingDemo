@@ -1,12 +1,13 @@
 #include "flocker_state.h"
 #include "utilities/timer.h"
+#include <climits>
 
-FlockerState::FlockerState(double size, int rows, int columns)
+FlockerState::FlockerState(double size, int agentsInRow, int agentsInColumn)
 	: velocity{0,0}
 {
-	for(int i = 0; i < rows; ++i)
-		for(int j = 0; j < columns; ++j)
-			agents.push_back(Agent{{320+size*i, 240+size*j}, {size,size}, "hex.png", 100, {0,0}});
+	for(int i = 0; i < agentsInRow; ++i)
+		for(int j = 0; j < agentsInColumn; ++j)
+			agents.push_back(Agent{{320+size*i, 240+size*j}, {size,size}, "agent.png", 100, {0,0}});
 }
 
 void FlockerState::HandleEvents(SDL_Event& event)
@@ -28,7 +29,7 @@ void FlockerState::Update()
 	}
 	centerOfMass /= count;
 	
-	double shortestDistance = 100000;
+	double shortestDistance = INT_MAX;
 	std::size_t index = -1;
 	for(std::size_t i = 0; i < agents.size(); ++i)
 	{
@@ -44,7 +45,6 @@ void FlockerState::Update()
 	SDL_GetMouseState(&x, &y);
 	Vector2 target{static_cast<double>(x),static_cast<double>(y)};
 	Vector2 steering = agents[index].Seek(target);
-	std::cout << steering << "\n";
 	for(std::size_t i = 0; i < agents.size(); ++i)
 	{
 		agents[i].AddAcceleration(steering);
@@ -87,7 +87,7 @@ Vector2 FlockerState::Seek(std::size_t index, Vector2 target)
 Vector2 FlockerState::ComputeAlignement(std::size_t index)
 {	
 	Agent& agent = agents[index];
-	double neighbourhood = 50;
+	double neighbourhood = agent.GetSize().x * 3;//50;
 	Vector2 result{0,0};
 	int count = 0;
 	for(std::size_t i = 0; i < agents.size(); ++i)
@@ -120,7 +120,7 @@ Vector2 FlockerState::ComputeAlignement(std::size_t index)
 Vector2 FlockerState::ComputeCohesion(std::size_t index)
 {	
 	Agent& agent = agents[index];
-	double neighbourhood = 50;
+	double neighbourhood = agent.GetSize().x * 3;//50;
 	Vector2 centerOfMass{0,0};
 	int count = 0;
 	for(std::size_t i = 0; i < agents.size(); ++i)
@@ -145,7 +145,7 @@ Vector2 FlockerState::ComputeCohesion(std::size_t index)
 
 Vector2 FlockerState::ComputeSeparation(std::size_t index)
 {	
-	const double desiredSeparation = 25;
+	const double desiredSeparation = agents[index].GetSize().x * 2;//* 1.41;
 	Vector2 steering{0,0};
 	Agent& agent = agents[index];
 	int count = 0;

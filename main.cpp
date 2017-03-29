@@ -15,9 +15,9 @@ int main(int argc, char** argv)
 	bool isDone = false;
 
 	SDL_Event event;
-	Window window;
+	Window window(1280, 720);
 	
-	FlockerState flock(10, 5, 5);
+	FlockerState flock(30, 6, 6);
 	
 	while( !isDone )
 	{

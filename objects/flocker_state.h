@@ -8,7 +8,7 @@
 class FlockerState : public State
 {
 public:
-	FlockerState(double size, int rows, int columns);
+	FlockerState(double size, int agentsInRow, int agentsInColumn);
 	void Update() override;
 	void HandleEvents(SDL_Event& event) override;
 	void Render(SDL_Renderer* renderer) override;
