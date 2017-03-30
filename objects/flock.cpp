@@ -40,39 +40,8 @@ void Flock::HandleEvents(SDL_Event& event)
 
 void Flock::Update()
 {
-	Vector2 seeking{0,0};
+	Vector2 seeking = SeekFlockDestination();
 	
-	if(isMoving)
-	{
-		Vector2 centerOfMass{0,0};
-		int count = 0;
-		for(Agent& agent : agents)
-		{
-			centerOfMass += agent.GetPosition();
-			++count;
-		}
-		centerOfMass /= count;
-		
-		if((destination - centerOfMass).Length() < proximityTolerance)
-		{
-			isMoving = false;
-		}
-		
-		double shortestDistance = INT_MAX;
-		Agent* closestToCenterOfMass = nullptr;
-		for(Agent& agent : agents)
-		{
-			double distance = (agent.GetPosition() - centerOfMass).Length();
-			if( distance < shortestDistance)
-			{
-				shortestDistance = distance;
-				closestToCenterOfMass = &agent;
-			}
-		}
-		
-		seeking = Seek(*closestToCenterOfMass, destination);
-		
-	}
 	for(Agent& agent : agents)
 	{
 		if(isMoving)
@@ -105,7 +74,38 @@ void Flock::Render(SDL_Renderer* renderer)
 
 Vector2 Flock::SeekFlockDestination()
 {
-	return Vector2{0,0};
+	if(!isMoving)
+	{
+		return Vector2{0,0};
+	}
+	
+	Vector2 centerOfMass{0,0};
+	int count = 0;
+	for(Agent& agent : agents)
+	{
+		centerOfMass += agent.GetPosition();
+		++count;
+	}
+	centerOfMass /= count;
+	
+	if((destination - centerOfMass).Length() < proximityTolerance)
+	{
+		isMoving = false;
+	}
+	
+	double shortestDistance = INT_MAX;
+	Agent* closestToCenterOfMass = nullptr;
+	for(Agent& agent : agents)
+	{
+		double distance = (agent.GetPosition() - centerOfMass).Length();
+		if( distance < shortestDistance)
+		{
+			shortestDistance = distance;
+			closestToCenterOfMass = &agent;
+		}
+	}
+	
+	return Seek(*closestToCenterOfMass, destination);
 }
 
 Vector2 Flock::Seek(Agent& agent, Vector2 target)
