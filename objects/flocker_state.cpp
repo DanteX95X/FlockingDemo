@@ -2,8 +2,14 @@
 #include "../utilities/timer.h"
 #include <climits>
 
-FlockerState::FlockerState(double size, int agentsInRow, int agentsInColumn)
-	: velocity{0,0}
+FlockerState::FlockerState
+(
+	double size, int agentsInRow, int agentsInColumn,
+	double initSeekingWeight, double initSeparationWeight, double initAlignementWeight, double initCohesionWeight
+)
+	: velocity{0,0}, 
+	  seekingWeight{initSeekingWeight}, separationWeight{initSeparationWeight}, 
+	  alignementWeight{initAlignementWeight}, cohesionWeight{initCohesionWeight} 
 {
 	for(int i = 0; i < agentsInRow; ++i)
 		for(int j = 0; j < agentsInColumn; ++j)
@@ -44,13 +50,7 @@ void FlockerState::Update()
 	int x, y;
 	SDL_GetMouseState(&x, &y);
 	Vector2 target{static_cast<double>(x),static_cast<double>(y)};
-	Vector2 steering = agents[index].Seek(target);
-	for(std::size_t i = 0; i < agents.size(); ++i)
-	{
-		agents[i].AddAcceleration(steering);
-	}
-	
-	
+	Vector2 seeking = agents[index].Seek(target);
 	
 	for(std::size_t i = 0; i < agents.size(); ++i)
 	{
@@ -58,7 +58,10 @@ void FlockerState::Update()
 		Vector2 alignement = ComputeAlignement(i) * 1;
 		Vector2 cohesion = ComputeCohesion(i) * 0.8;
 		
-		agents[i].AddAcceleration(separation + alignement + cohesion);
+		agents[i].AddAcceleration(seeking * seekingWeight);
+		agents[i].AddAcceleration(separation * separationWeight);
+		agents[i].AddAcceleration(alignement * alignementWeight);
+		agents[i].AddAcceleration(cohesion * cohesionWeight);
 		
 		agents[i].Update(*this);
 	}
@@ -145,7 +148,7 @@ Vector2 FlockerState::ComputeCohesion(std::size_t index)
 
 Vector2 FlockerState::ComputeSeparation(std::size_t index)
 {	
-	const double desiredSeparation = agents[index].GetSize().x * 2;//* 1.41;
+	const double desiredSeparation = agents[index].GetSize().x * 1.41;
 	Vector2 steering{0,0};
 	Agent& agent = agents[index];
 	int count = 0;

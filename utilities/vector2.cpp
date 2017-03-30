@@ -9,7 +9,7 @@ Vector2::Vector2(double xInit, double yInit)
 
 Vector2 Vector2::Normalize()
 {
-	double norm = sqrt(x*x + y*y);
+	double norm = Length();
 	if(norm > 0)
 	{
 		x /= norm;

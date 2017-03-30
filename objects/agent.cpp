@@ -31,16 +31,6 @@ void Agent::Update(State& state)
 	
 	position += velocity * Timer::Instance().GetDeltaTime();
 	acceleration *= 0;
-	
-	if(position.x < 0)
-		position.x = 1280 + position.x;
-	else if(position.x > 1280)
-		position.x = position.x - 1280;
-	
-	if(position.y < 0)
-		position.y = 720 + position.y;
-	else if(position.y > 720)
-		position.y = position.y - 720;
 }
 
 void Agent::HandleEvents(SDL_Event& event, State& state)

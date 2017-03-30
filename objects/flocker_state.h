@@ -8,7 +8,12 @@
 class FlockerState : public State
 {
 public:
-	FlockerState(double size, int agentsInRow, int agentsInColumn);
+	FlockerState
+	(
+		double size, int agentsInRow, int agentsInColumn, 
+		double initSeekingWeight, double initSeparationWeight, double initAlignementWeight, double initCohesionWeight
+	);
+	
 	void Update() override;
 	void HandleEvents(SDL_Event& event) override;
 	void Render(SDL_Renderer* renderer) override;
@@ -22,6 +27,11 @@ public:
 private:
 	std::vector<Agent> agents;
 	Vector2 velocity;
+	
+	const double seekingWeight;
+	const double separationWeight;
+	const double alignementWeight;
+	const double cohesionWeight;
 };
 
 
