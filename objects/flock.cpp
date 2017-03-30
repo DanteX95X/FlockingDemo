@@ -40,27 +40,7 @@ void Flock::HandleEvents(SDL_Event& event)
 
 void Flock::Update()
 {
-	Vector2 seeking = SeekFlockDestination();
-	
-	for(Agent& agent : agents)
-	{
-		if(isMoving)
-		{
-			Vector2 separation = ComputeSeparation(agent);
-			Vector2 alignement = ComputeAlignement(agent);
-			Vector2 cohesion = ComputeCohesion(agent);
-			
-			agent.AddAcceleration(seeking * seekingWeight);
-			agent.AddAcceleration(separation * separationWeight);
-			agent.AddAcceleration(alignement * alignementWeight);
-			agent.AddAcceleration(cohesion * cohesionWeight);
-		}
-		else
-		{
-			agent.SetVelocity({0,0});
-		}
-		agent.Update();
-	}
+
 }
 
 void Flock::Render(SDL_Renderer* renderer)
@@ -74,132 +54,27 @@ void Flock::Render(SDL_Renderer* renderer)
 
 Vector2 Flock::SeekFlockDestination()
 {
-	if(!isMoving)
-	{
-		return Vector2{0,0};
-	}
-	
-	Vector2 centerOfMass{0,0};
-	int count = 0;
-	for(Agent& agent : agents)
-	{
-		centerOfMass += agent.GetPosition();
-		++count;
-	}
-	centerOfMass /= count;
-	
-	if((destination - centerOfMass).Length() < proximityTolerance)
-	{
-		isMoving = false;
-	}
-	
-	double shortestDistance = INT_MAX;
-	Agent* closestToCenterOfMass = nullptr;
-	for(Agent& agent : agents)
-	{
-		double distance = (agent.GetPosition() - centerOfMass).Length();
-		if( distance < shortestDistance)
-		{
-			shortestDistance = distance;
-			closestToCenterOfMass = &agent;
-		}
-	}
-	
-	return Seek(*closestToCenterOfMass, destination);
+	return Vector2{0,0};
 }
 
 Vector2 Flock::Seek(Agent& agent, Vector2 target)
 {
-	Vector2 desiredVelocity = (target - agent.GetPosition()).Normalize() * agent.GetMaxSpeed();
-	Vector2 steering = desiredVelocity - agent.GetVelocity();
-	if(steering.Length() > agent.GetMaxForce())
-	{
-		steering *= agent.GetMaxForce()/ steering.Length();
-	}
-	return steering;
+	return Vector2{0,0};
 }
 
 Vector2 Flock::ComputeAlignement(Agent& agent)
-{	
-	Vector2 resultant{0,0};
-	int count = 0;
-	for(Agent& another : agents)
-	{
-		double distance = (agent.GetPosition() - another.GetPosition()).Length();
-		if(distance > 0 && distance < agent.GetNeighbourhoodRadius())
-		{
-			resultant += another.GetVelocity();
-			++count;
-		}
-	}
-	
-	if(count > 0)
-	{
-		resultant /= count;
-		resultant.Normalize();
-		resultant *= agent.GetMaxSpeed();
-		Vector2 steering = resultant - agent.GetVelocity();
-		if(steering.Length() > agent.GetMaxForce())
-		{
-			steering *= agent.GetMaxForce() / steering.Length();
-			return steering;
-		}
-	}
-	
+{
 	return Vector2{0,0};
 }
 
 Vector2 Flock::ComputeCohesion(Agent& agent)
-{	
-	Vector2 centerOfMass{0,0};
-	int count = 0;
-	for(Agent& another : agents)
-	{
-		double distance = (agent.GetPosition() - another.GetPosition()).Length();
-		if( distance > 0 && distance < agent.GetNeighbourhoodRadius())
-		{
-			centerOfMass += another.GetPosition();
-			++count;
-		}
-	}
-	
-	if(count > 0)
-	{
-		centerOfMass /= count;
-		return Seek(agent, centerOfMass);
-	}	
+{
 	return Vector2{0,0};
 }
 
 Vector2 Flock::ComputeSeparation(Agent& agent)
-{	
-	Vector2 steering{0,0};
-	int count = 0;
-	
-	for(Agent& another : agents)
-	{
-		double distance = (agent.GetPosition() - another.GetPosition()).Length();
-		if(distance > 0 && distance < agent.GetSeparationRadius())
-		{
-			Vector2 difference = (agent.GetPosition() - another.GetPosition()).Normalize() / distance;
-			steering += difference;
-			++count;
-		}
-	}
-	
-	if(count > 0)
-		steering /= count;
-	
-	if(steering.Length() > 0)
-	{
-		steering.Normalize();
-		steering *= agent.GetMaxSpeed();
-		steering -= agent.GetVelocity();
-		
-		if(steering.Length() > agent.GetMaxForce())
-			steering *= agent.GetMaxForce() / steering.Length();
-	}
-	return steering;
+{
+	return Vector2{0,0};
 }
 
 const std::vector<Agent>& Flock::GetAgents() { return agents; }
