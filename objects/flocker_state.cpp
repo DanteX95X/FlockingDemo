@@ -1,5 +1,5 @@
 #include "flocker_state.h"
-#include "utilities/timer.h"
+#include "../utilities/timer.h"
 #include <climits>
 
 FlockerState::FlockerState(double size, int agentsInRow, int agentsInColumn)

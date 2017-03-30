@@ -9,15 +9,13 @@
 #include <time.h>
 
 int main(int argc, char** argv)
-{
-	srand(time(nullptr));
-	
+{	
 	bool isDone = false;
 
 	SDL_Event event;
 	Window window(1280, 720);
 	
-	FlockerState flock(30, 6, 6);
+	FlockerState flock(20, 6, 6);
 	
 	while( !isDone )
 	{

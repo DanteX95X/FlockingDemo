@@ -1,5 +1,5 @@
 #include "agent.h"
-#include "utilities/timer.h"
+#include "../utilities/timer.h"
 #include <iostream>
 #include "flocker_state.h"
 
