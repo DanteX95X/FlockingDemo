@@ -1,9 +1,9 @@
 #ifndef FLOCK_H
 #define FLOCK_H
 
-#include "state.h"
 #include <vector>
 #include "agent.h"
+#include "actor.h"
 
 class Flock : public Actor
 {

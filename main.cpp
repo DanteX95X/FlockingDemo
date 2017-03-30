@@ -1,12 +1,7 @@
-#include <iostream>
 #include "window/window.h"
-#include "objects/prop.h"
 #include "utilities/timer.h"
 #include "objects/agent.h"
-#include <queue>
 #include "objects/flock.h"
-#include <stdlib.h>
-#include <time.h>
 
 int main(int argc, char** argv)
 {	

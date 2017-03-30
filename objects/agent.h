@@ -2,7 +2,6 @@
 #define AGENT_H
 
 #include "actor.h"
-#include <set>
 
 class Agent : public Actor
 {
