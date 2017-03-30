@@ -10,7 +10,7 @@ class Flock : public Actor
 public:
 	Flock
 	(
-		double size, unsigned int agentsInRow, unsigned int agentsInColumn, 
+		Vector2 position, double size, unsigned int agentsInRow, unsigned int agentsInColumn, 
 		double initSeekingWeight, double initSeparationWeight, double initAlignementWeight, double initCohesionWeight
 	);
 	

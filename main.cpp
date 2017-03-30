@@ -6,11 +6,13 @@
 int main(int argc, char** argv)
 {	
 	bool isDone = false;
+	const int width = 1280;
+	const int height = 720;
 
 	SDL_Event event;
-	Window window(1280, 720);
+	Window window(width, height);
 	
-	Flock flock(20, 6, 6, 1, 1, 1, 0.8);
+	Flock flock({width/2, height/2}, 20, 6, 6, 1, 1, 1, 0.8);
 	
 	while( !isDone )
 	{
