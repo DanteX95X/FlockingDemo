@@ -4,7 +4,7 @@
 #include "utilities/timer.h"
 #include "objects/agent.h"
 #include <queue>
-#include "objects/flocker_state.h"
+#include "objects/flock.h"
 #include <stdlib.h>
 #include <time.h>
 
@@ -15,7 +15,7 @@ int main(int argc, char** argv)
 	SDL_Event event;
 	Window window(1280, 720);
 	
-	FlockerState flock(20, 6, 6, 1, 1, 1, 0.8);
+	Flock flock(20, 6, 6, 1, 1, 1, 0.8);
 	
 	while( !isDone )
 	{

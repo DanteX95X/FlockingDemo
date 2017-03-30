@@ -1,7 +1,7 @@
 #include "agent.h"
 #include "../utilities/timer.h"
 #include <iostream>
-#include "flocker_state.h"
+#include "flock.h"
 
 #define _USE_MATH_DEFINES //for M_PI constant
 #include <math.h>

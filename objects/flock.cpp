@@ -1,14 +1,15 @@
-#include "flocker_state.h"
+#include "flock.h"
 #include "../utilities/timer.h"
 #include <climits>
 #include <assert.h>
 
-FlockerState::FlockerState
+Flock::Flock
 (
 	double size, unsigned int agentsInRow, unsigned int agentsInColumn,
 	double initSeekingWeight, double initSeparationWeight, double initAlignementWeight, double initCohesionWeight
 )
-	: velocity{0,0}, 
+	: Actor({0,0}, {0,0}),
+	  velocity{0,0}, 
 	  seekingWeight{initSeekingWeight}, separationWeight{initSeparationWeight}, 
 	  alignementWeight{initAlignementWeight}, cohesionWeight{initCohesionWeight} 
 {
@@ -19,7 +20,7 @@ FlockerState::FlockerState
 	assert(agents.size() > 0);
 }
 
-void FlockerState::HandleEvents(SDL_Event& event)
+void Flock::HandleEvents(SDL_Event& event)
 {
 	for(Agent& agent : agents)
 	{
@@ -27,7 +28,7 @@ void FlockerState::HandleEvents(SDL_Event& event)
 	}
 }
 
-void FlockerState::Update()
+void Flock::Update()
 {	
 	Vector2 centerOfMass{0,0};
 	int count = 0;
@@ -70,7 +71,7 @@ void FlockerState::Update()
 	}
 }
 
-void FlockerState::Render(SDL_Renderer* renderer)
+void Flock::Render(SDL_Renderer* renderer)
 {
 	for(Agent& agent : agents)
 	{
@@ -78,7 +79,7 @@ void FlockerState::Render(SDL_Renderer* renderer)
 	}
 }
 
-Vector2 FlockerState::Seek(Agent& agent, Vector2 target)
+Vector2 Flock::Seek(Agent& agent, Vector2 target)
 {
 	Vector2 desiredVelocity = (target - agent.GetPosition()).Normalize() * agent.GetMaxSpeed();
 	Vector2 steering = desiredVelocity - agent.GetVelocity();
@@ -89,7 +90,7 @@ Vector2 FlockerState::Seek(Agent& agent, Vector2 target)
 	return steering;
 }
 
-Vector2 FlockerState::ComputeAlignement(Agent& agent)
+Vector2 Flock::ComputeAlignement(Agent& agent)
 {	
 	Vector2 result{0,0};
 	int count = 0;
@@ -119,7 +120,7 @@ Vector2 FlockerState::ComputeAlignement(Agent& agent)
 	return Vector2{0,0};
 }
 
-Vector2 FlockerState::ComputeCohesion(Agent& agent)
+Vector2 Flock::ComputeCohesion(Agent& agent)
 {	
 	Vector2 centerOfMass{0,0};
 	int count = 0;
@@ -142,7 +143,7 @@ Vector2 FlockerState::ComputeCohesion(Agent& agent)
 	return Vector2{0,0};
 }
 
-Vector2 FlockerState::ComputeSeparation(Agent& agent)
+Vector2 Flock::ComputeSeparation(Agent& agent)
 {	
 	Vector2 steering{0,0};
 	int count = 0;
@@ -173,4 +174,4 @@ Vector2 FlockerState::ComputeSeparation(Agent& agent)
 	return steering;
 }
 
-const std::vector<Agent>& FlockerState::GetAgents() { return agents; }
+const std::vector<Agent>& Flock::GetAgents() { return agents; }

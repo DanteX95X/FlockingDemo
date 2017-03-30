@@ -1,14 +1,14 @@
-#ifndef FLOCKER_STATE_H
-#define FLOCKER_STATE_H
+#ifndef FLOCK_H
+#define FLOCK_H
 
 #include "state.h"
 #include <vector>
 #include "agent.h"
 
-class FlockerState : public State
+class Flock : public Actor
 {
 public:
-	FlockerState
+	Flock
 	(
 		double size, unsigned int agentsInRow, unsigned int agentsInColumn, 
 		double initSeekingWeight, double initSeparationWeight, double initAlignementWeight, double initCohesionWeight
@@ -35,4 +35,4 @@ private:
 };
 
 
-#endif //FLOCKER_STATE_H
+#endif //FLOCK_H
