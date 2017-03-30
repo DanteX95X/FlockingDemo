@@ -23,11 +23,8 @@ Agent::~Agent()
 {
 }
 
-void Agent::Update(State& state)
+void Agent::Update()
 {
-	FlockerState* flock = static_cast<FlockerState*>(&state);
-	std::vector<Agent> agents = flock->GetAgents();
-	
 	angle = atan2(velocity.y, velocity.x) * 180 / M_PI + 90;
 	
 	velocity += acceleration;
@@ -41,7 +38,7 @@ void Agent::Update(State& state)
 	acceleration *= 0;
 }
 
-void Agent::HandleEvents(SDL_Event&, State&)
+void Agent::HandleEvents(SDL_Event&)
 {
 }
 

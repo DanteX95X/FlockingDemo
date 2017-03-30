@@ -12,7 +12,7 @@ public:
 	Object(Vector2 initPosition, Vector2 initSize);
 	virtual ~Object();
 	
-	virtual void Update(State& state) = 0;
+	virtual void Update() = 0;
 	
 	Vector2 GetPosition();
 	Vector2 GetSize();

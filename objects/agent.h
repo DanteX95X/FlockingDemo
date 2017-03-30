@@ -15,8 +15,8 @@ public:
 	);
 	~Agent();
 	
-	void HandleEvents(SDL_Event& event, State& state) override;
-	void Update(State& state) override;
+	void HandleEvents(SDL_Event& event) override;
+	void Update() override;
 	void Render(SDL_Renderer* renderer) override;
 	
 	Vector2 GetVelocity();
@@ -33,6 +33,7 @@ public:
 private:
 	Vector2 velocity;
 	Vector2 acceleration;
+	
 	const double separationRadius;
 	const double neighbourhoodRadius;
 	const double maxSpeed;

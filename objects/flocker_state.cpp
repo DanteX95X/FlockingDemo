@@ -23,7 +23,7 @@ void FlockerState::HandleEvents(SDL_Event& event)
 {
 	for(Agent& agent : agents)
 	{
-		agent.HandleEvents(event, *this);
+		agent.HandleEvents(event);
 	}
 }
 
@@ -66,7 +66,7 @@ void FlockerState::Update()
 		agent.AddAcceleration(alignement * alignementWeight);
 		agent.AddAcceleration(cohesion * cohesionWeight);
 		
-		agent.Update(*this);
+		agent.Update();
 	}
 }
 
