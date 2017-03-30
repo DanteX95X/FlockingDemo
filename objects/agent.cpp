@@ -23,7 +23,8 @@ Agent::~Agent()
 
 void Agent::Update()
 {
-	angle = atan2(velocity.y, velocity.x) * 180 / M_PI + 90;
+	if(velocity.x != 0 && velocity.y != 0)
+		angle = atan2(velocity.y, velocity.x) * 180 / M_PI + 90;
 	
 	velocity += acceleration;
 	double magnitude = velocity.Length();

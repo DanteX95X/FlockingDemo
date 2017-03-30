@@ -6,12 +6,12 @@
 Flock::Flock
 (
 	Vector2 position, double size, unsigned int agentsInRow, unsigned int agentsInColumn,
-	double initSeekingWeight, double initSeparationWeight, double initAlignementWeight, double initCohesionWeight
+	double initSeekingWeight, double initSeparationWeight, double initAlignementWeight, double initCohesionWeight, double initProximityTolerance
 )
 	: Actor({0,0}, {0,0}),
-	  velocity{0,0}, 
+	  velocity{0,0}, isMoving{false}, destination{position},
 	  seekingWeight{initSeekingWeight}, separationWeight{initSeparationWeight}, 
-	  alignementWeight{initAlignementWeight}, cohesionWeight{initCohesionWeight} 
+	  alignementWeight{initAlignementWeight}, cohesionWeight{initCohesionWeight}, proximityTolerance{initProximityTolerance}
 {
 	position -= {size*agentsInRow/2, size*agentsInColumn/2};
 	for(std::size_t i = 0; i < agentsInRow; ++i)
@@ -23,51 +23,73 @@ Flock::Flock
 
 void Flock::HandleEvents(SDL_Event& event)
 {
-	for(Agent& agent : agents)
+	static bool isMouseButtonPressed = false;
+	if(event.type == SDL_MOUSEBUTTONDOWN)
+		isMouseButtonPressed = true;
+	else if(event.type == SDL_MOUSEBUTTONUP)
+		isMouseButtonPressed = false;
+	
+	if(isMouseButtonPressed)
 	{
-		agent.HandleEvents(event);
+		int x, y;
+		SDL_GetMouseState(&x, &y);
+		destination = {static_cast<double>(x),static_cast<double>(y)};
+		isMoving = true;
 	}
 }
 
 void Flock::Update()
-{	
-	Vector2 centerOfMass{0,0};
-	int count = 0;
-	for(Agent& agent : agents)
-	{
-		centerOfMass += agent.GetPosition();
-		++count;
-	}
-	centerOfMass /= count;
+{
+	Vector2 seeking{0,0};
 	
-	double shortestDistance = INT_MAX;
-	Agent* closestToCenterOfMass = nullptr;
-	for(Agent& agent : agents)
+	if(isMoving)
 	{
-		double distance = (agent.GetPosition() - centerOfMass).Length();
-		if( distance < shortestDistance)
+		Vector2 centerOfMass{0,0};
+		int count = 0;
+		for(Agent& agent : agents)
 		{
-			shortestDistance = distance;
-			closestToCenterOfMass = &agent;
+			centerOfMass += agent.GetPosition();
+			++count;
 		}
+		centerOfMass /= count;
+		
+		if((destination - centerOfMass).Length() < proximityTolerance)
+		{
+			isMoving = false;
+		}
+		
+		double shortestDistance = INT_MAX;
+		Agent* closestToCenterOfMass = nullptr;
+		for(Agent& agent : agents)
+		{
+			double distance = (agent.GetPosition() - centerOfMass).Length();
+			if( distance < shortestDistance)
+			{
+				shortestDistance = distance;
+				closestToCenterOfMass = &agent;
+			}
+		}
+		
+		seeking = Seek(*closestToCenterOfMass, destination);
+		
 	}
-	
-	int x, y;
-	SDL_GetMouseState(&x, &y);
-	Vector2 target{static_cast<double>(x),static_cast<double>(y)};
-	Vector2 seeking = Seek(*closestToCenterOfMass, target);
-	
 	for(Agent& agent : agents)
 	{
-		Vector2 separation = ComputeSeparation(agent);
-		Vector2 alignement = ComputeAlignement(agent);
-		Vector2 cohesion = ComputeCohesion(agent);
-		
-		agent.AddAcceleration(seeking * seekingWeight);
-		agent.AddAcceleration(separation * separationWeight);
-		agent.AddAcceleration(alignement * alignementWeight);
-		agent.AddAcceleration(cohesion * cohesionWeight);
-		
+		if(isMoving)
+		{
+			Vector2 separation = ComputeSeparation(agent);
+			Vector2 alignement = ComputeAlignement(agent);
+			Vector2 cohesion = ComputeCohesion(agent);
+			
+			agent.AddAcceleration(seeking * seekingWeight);
+			agent.AddAcceleration(separation * separationWeight);
+			agent.AddAcceleration(alignement * alignementWeight);
+			agent.AddAcceleration(cohesion * cohesionWeight);
+		}
+		else
+		{
+			agent.SetVelocity({0,0});
+		}
 		agent.Update();
 	}
 }
@@ -78,6 +100,12 @@ void Flock::Render(SDL_Renderer* renderer)
 	{
 		agent.Render(renderer);
 	}
+}
+
+
+Vector2 Flock::SeekFlockDestination()
+{
+	return Vector2{0,0};
 }
 
 Vector2 Flock::Seek(Agent& agent, Vector2 target)
@@ -132,7 +160,6 @@ Vector2 Flock::ComputeCohesion(Agent& agent)
 		{
 			centerOfMass += another.GetPosition();
 			++count;
-			
 		}
 	}
 	

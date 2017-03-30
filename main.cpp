@@ -12,7 +12,7 @@ int main(int argc, char** argv)
 	SDL_Event event;
 	Window window(width, height);
 	
-	Flock flock({width/2, height/2}, 20, 6, 6, 1, 1, 1, 0.8);
+	Flock flock({width/2, height/2}, 20, 6, 6, 1, 1, 1, 0.8, 7);
 	
 	while( !isDone )
 	{

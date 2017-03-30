@@ -11,7 +11,7 @@ public:
 	Flock
 	(
 		Vector2 position, double size, unsigned int agentsInRow, unsigned int agentsInColumn, 
-		double initSeekingWeight, double initSeparationWeight, double initAlignementWeight, double initCohesionWeight
+		double initSeekingWeight, double initSeparationWeight, double initAlignementWeight, double initCohesionWeight, double initProximityTolerance
 	);
 	
 	void Update() override;
@@ -20,6 +20,7 @@ public:
 	
 	const std::vector<Agent>& GetAgents();
 	
+	Vector2 SeekFlockDestination();
 	Vector2 Seek(Agent& agent, Vector2 target);
 	Vector2 ComputeAlignement(Agent& agent);
 	Vector2 ComputeCohesion(Agent& agent);
@@ -28,10 +29,14 @@ private:
 	std::vector<Agent> agents;
 	Vector2 velocity;
 	
+	bool isMoving;
+	Vector2 destination;
+	
 	const double seekingWeight;
 	const double separationWeight;
 	const double alignementWeight;
 	const double cohesionWeight;
+	const double proximityTolerance;
 };
 
 
