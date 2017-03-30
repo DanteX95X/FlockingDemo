@@ -121,24 +121,24 @@ Vector2 Flock::Seek(Agent& agent, Vector2 target)
 
 Vector2 Flock::ComputeAlignement(Agent& agent)
 {	
-	Vector2 result{0,0};
+	Vector2 resultant{0,0};
 	int count = 0;
 	for(Agent& another : agents)
 	{
 		double distance = (agent.GetPosition() - another.GetPosition()).Length();
 		if(distance > 0 && distance < agent.GetNeighbourhoodRadius())
 		{
-			result += another.GetVelocity();
+			resultant += another.GetVelocity();
 			++count;
 		}
 	}
 	
 	if(count > 0)
 	{
-		result /= count;
-		result.Normalize();
-		result *= agent.GetMaxSpeed();
-		Vector2 steering = result - agent.GetVelocity();
+		resultant /= count;
+		resultant.Normalize();
+		resultant *= agent.GetMaxSpeed();
+		Vector2 steering = resultant - agent.GetVelocity();
 		if(steering.Length() > agent.GetMaxForce())
 		{
 			steering *= agent.GetMaxForce() / steering.Length();
