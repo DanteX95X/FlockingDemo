@@ -16,7 +16,7 @@ Flock::Flock
 	position -= {size*agentsInRow/2, size*agentsInColumn/2};
 	for(std::size_t i = 0; i < agentsInRow; ++i)
 		for(std::size_t j = 0; j < agentsInColumn; ++j)
-			agents.push_back(Agent{{position.x+size*i, position.y+size*j}, {size,size}, "agent.png", 1.1, 3, {0,0}, 200, 3});
+			agents.push_back(Agent{{position.x+size*i, position.y+size*j}, {size,size}, "agent.png", 1, 3, {0,0}, 200, 3});
 			
 	assert(agents.size() > 0);
 }
