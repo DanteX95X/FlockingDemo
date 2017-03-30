@@ -19,8 +19,6 @@ public:
 	void Update(State& state) override;
 	void Render(SDL_Renderer* renderer) override;
 	
-	Vector2 Seek(Vector2 target);
-	
 	Vector2 GetVelocity();
 	void SetVelocity(Vector2 newVelocity);
 	

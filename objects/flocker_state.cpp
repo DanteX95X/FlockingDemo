@@ -53,7 +53,7 @@ void FlockerState::Update()
 	int x, y;
 	SDL_GetMouseState(&x, &y);
 	Vector2 target{static_cast<double>(x),static_cast<double>(y)};
-	Vector2 seeking = closestToCenterOfMass->Seek(target);
+	Vector2 seeking = Seek(*closestToCenterOfMass, target);
 	
 	for(Agent& agent : agents)
 	{
@@ -76,6 +76,17 @@ void FlockerState::Render(SDL_Renderer* renderer)
 	{
 		agent.Render(renderer);
 	}
+}
+
+Vector2 FlockerState::Seek(Agent& agent, Vector2 target)
+{
+	Vector2 desiredVelocity = (target - agent.GetPosition()).Normalize() * agent.GetMaxSpeed();
+	Vector2 steering = desiredVelocity - agent.GetVelocity();
+	if(steering.Length() > agent.GetMaxForce())
+	{
+		steering *= agent.GetMaxForce()/ steering.Length();
+	}
+	return steering;
 }
 
 Vector2 FlockerState::ComputeAlignement(Agent& agent)
@@ -126,7 +137,7 @@ Vector2 FlockerState::ComputeCohesion(Agent& agent)
 	if(count > 0)
 	{
 		centerOfMass /= count;
-		return agent.Seek(centerOfMass);
+		return Seek(agent, centerOfMass);
 	}	
 	return Vector2{0,0};
 }

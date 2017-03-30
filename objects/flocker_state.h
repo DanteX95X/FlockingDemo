@@ -20,6 +20,7 @@ public:
 	
 	const std::vector<Agent>& GetAgents();
 	
+	Vector2 Seek(Agent& agent, Vector2 target);
 	Vector2 ComputeAlignement(Agent& agent);
 	Vector2 ComputeCohesion(Agent& agent);
 	Vector2 ComputeSeparation(Agent& agent);

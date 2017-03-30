@@ -51,17 +51,6 @@ void Agent::Render(SDL_Renderer* renderer)
 	SDL_RenderCopyEx(renderer, texture, nullptr, &destination, angle, nullptr, SDL_FLIP_NONE);
 }
 
-Vector2 Agent::Seek(Vector2 target)
-{
-	Vector2 desiredVelocity = (target - position).Normalize() * maxSpeed;
-	Vector2 steering = desiredVelocity - velocity;
-	if(steering.Length() > maxForce)
-	{
-		steering *= maxForce / steering.Length();
-	}
-	return steering;
-}
-
 Vector2 Agent::GetVelocity() { return velocity; }
 void Agent::SetVelocity(Vector2 newVelocity) { velocity = newVelocity; }
 
