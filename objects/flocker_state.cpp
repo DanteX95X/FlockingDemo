@@ -13,7 +13,7 @@ FlockerState::FlockerState
 {
 	for(int i = 0; i < agentsInRow; ++i)
 		for(int j = 0; j < agentsInColumn; ++j)
-			agents.push_back(Agent{{320+size*i, 240+size*j}, {size,size}, "agent.png", 100, {0,0}});
+			agents.push_back(Agent{{320+size*i, 240+size*j}, {size,size}, "agent.png", 1, 3, {0,0}, 200, 3});
 }
 
 void FlockerState::HandleEvents(SDL_Event& event)
@@ -54,9 +54,9 @@ void FlockerState::Update()
 	
 	for(std::size_t i = 0; i < agents.size(); ++i)
 	{
-		Vector2 separation = ComputeSeparation(i) * 1;
-		Vector2 alignement = ComputeAlignement(i) * 1;
-		Vector2 cohesion = ComputeCohesion(i) * 0.8;
+		Vector2 separation = ComputeSeparation(i);
+		Vector2 alignement = ComputeAlignement(i);
+		Vector2 cohesion = ComputeCohesion(i);
 		
 		agents[i].AddAcceleration(seeking * seekingWeight);
 		agents[i].AddAcceleration(separation * separationWeight);
@@ -75,29 +75,16 @@ void FlockerState::Render(SDL_Renderer* renderer)
 	}
 }
 
-Vector2 FlockerState::Seek(std::size_t index, Vector2 target)
-{
-	const int maxSpeed = 10;
-	Vector2 position = agents[index].GetPosition();
-	Vector2 velocity = agents[index].GetVelocity();
-	Vector2 desiredVelocity = (target - position);
-	desiredVelocity *= maxSpeed / desiredVelocity.Length();
-	Vector2 steering = desiredVelocity - velocity;
-	
-	return steering;
-}
-
 Vector2 FlockerState::ComputeAlignement(std::size_t index)
 {	
 	Agent& agent = agents[index];
-	double neighbourhood = agent.GetSize().x * 3;//50;
 	Vector2 result{0,0};
 	int count = 0;
 	for(std::size_t i = 0; i < agents.size(); ++i)
 	{
 		Agent& another = agents[i];
 		double distance = (agent.GetPosition() - another.GetPosition()).Length();
-		if(distance > 0 && distance < neighbourhood)
+		if(distance > 0 && distance < agent.GetNeighbourhoodRadius())
 		{
 			result += another.GetVelocity();
 			++count;
@@ -123,14 +110,13 @@ Vector2 FlockerState::ComputeAlignement(std::size_t index)
 Vector2 FlockerState::ComputeCohesion(std::size_t index)
 {	
 	Agent& agent = agents[index];
-	double neighbourhood = agent.GetSize().x * 3;//50;
 	Vector2 centerOfMass{0,0};
 	int count = 0;
 	for(std::size_t i = 0; i < agents.size(); ++i)
 	{
 		Agent& another = agents[i];
 		double distance = (agent.GetPosition() - another.GetPosition()).Length();
-		if( distance > 0 && distance < neighbourhood)
+		if( distance > 0 && distance < agent.GetNeighbourhoodRadius())
 		{
 			centerOfMass += another.GetPosition();
 			++count;
@@ -148,7 +134,6 @@ Vector2 FlockerState::ComputeCohesion(std::size_t index)
 
 Vector2 FlockerState::ComputeSeparation(std::size_t index)
 {	
-	const double desiredSeparation = agents[index].GetSize().x * 1.41;
 	Vector2 steering{0,0};
 	Agent& agent = agents[index];
 	int count = 0;
@@ -157,7 +142,7 @@ Vector2 FlockerState::ComputeSeparation(std::size_t index)
 	{
 		Agent& another = agents[i];
 		double distance = (agent.GetPosition() - another.GetPosition()).Length();
-		if(distance > 0 && distance < desiredSeparation)
+		if(distance > 0 && distance < agent.GetSeparationRadius())
 		{
 			Vector2 difference = (agent.GetPosition() - another.GetPosition()).Normalize() / distance;
 			steering += difference;

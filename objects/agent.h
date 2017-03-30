@@ -7,20 +7,25 @@
 class Agent : public Actor
 {
 public:
-	Agent(Vector2 initPosition, Vector2 initSize, std::string spritePath, double initRadius, Vector2 initVelocity = Vector2{0,0});
+	Agent
+	(
+		Vector2 initPosition, Vector2 initSize, std::string spritePath, 
+		double separationRadiusCoefficient, double neighbourhoodRadiusCoefficient, Vector2 initVelocity,
+		double initMaxSpeed, double initMaxForce
+	);
 	~Agent();
 	
 	void HandleEvents(SDL_Event& event, State& state) override;
 	void Update(State& state) override;
 	void Render(SDL_Renderer* renderer) override;
 	
-	bool IsInRange(Vector2 point);
 	Vector2 Seek(Vector2 target);
 	
 	Vector2 GetVelocity();
 	void SetVelocity(Vector2 newVelocity);
 	
-	double GetRadius();
+	double GetSeparationRadius();
+	double GetNeighbourhoodRadius();
 	const double GetMaxSpeed();
 	const double GetMaxForce();
 	
@@ -30,7 +35,8 @@ public:
 private:
 	Vector2 velocity;
 	Vector2 acceleration;
-	double radius;
+	const double separationRadius;
+	const double neighbourhoodRadius;
 	const double maxSpeed;
 	const double maxForce;
 	

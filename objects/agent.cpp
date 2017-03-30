@@ -6,8 +6,16 @@
 #define _USE_MATH_DEFINES //for M_PI constant
 #include <math.h>
 
-Agent::Agent(Vector2 initPosition, Vector2 initSize, std::string spritePath, double initRadius, Vector2 initVelocity)
-	: Actor(initPosition, initSize, spritePath), velocity{initVelocity}, acceleration{0,0}, radius{initRadius}, maxSpeed{200}, maxForce{3}, angle{0}
+Agent::Agent
+(
+	Vector2 initPosition, Vector2 initSize, std::string spritePath, 
+	double separationRadiusCoefficient, double neighbourhoodRadiusCoefficient, Vector2 initVelocity,
+	double initMaxSpeed, double initMaxForce
+)
+	: Actor(initPosition, initSize, spritePath), 
+	  velocity{initVelocity}, acceleration{0,0}, 
+	  separationRadius{separationRadiusCoefficient * initSize.x * 1.41}, neighbourhoodRadius{neighbourhoodRadiusCoefficient * initSize.x * 1.41},
+	  maxSpeed{initMaxSpeed}, maxForce{initMaxForce}, angle{0}
 {
 }
 
@@ -33,22 +41,14 @@ void Agent::Update(State& state)
 	acceleration *= 0;
 }
 
-void Agent::HandleEvents(SDL_Event& event, State& state)
+void Agent::HandleEvents(SDL_Event&, State&)
 {
-	FlockerState* flock = static_cast<FlockerState*>(&state);
-	std::vector<Agent> agents = flock->GetAgents();
-	
 }
 
 void Agent::Render(SDL_Renderer* renderer)
 {
 	SDL_Rect destination = { static_cast<int>(position.x-size.x/2), static_cast<int>(position.y-size.y/2), static_cast<int>(size.x), static_cast<int>(size.y) };
 	SDL_RenderCopyEx(renderer, texture, nullptr, &destination, angle, nullptr, SDL_FLIP_NONE);
-}
-
-bool Agent::IsInRange(Vector2 point)
-{
-	return (point.x - position.x)*(point.x - position.x) + (point.y - position.y)*(point.y - position.y) < radius*radius;
 }
 
 Vector2 Agent::Seek(Vector2 target)
@@ -65,7 +65,8 @@ Vector2 Agent::Seek(Vector2 target)
 Vector2 Agent::GetVelocity() { return velocity; }
 void Agent::SetVelocity(Vector2 newVelocity) { velocity = newVelocity; }
 
-double Agent::GetRadius() { return radius; }
+double Agent::GetSeparationRadius() { return separationRadius; }
+double Agent::GetNeighbourhoodRadius() { return neighbourhoodRadius; }
 
 const double Agent::GetMaxSpeed() { return maxSpeed; }
 const double Agent::GetMaxForce() { return maxForce; }

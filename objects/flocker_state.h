@@ -23,7 +23,6 @@ public:
 	Vector2 ComputeAlignement(std::size_t index);
 	Vector2 ComputeCohesion(std::size_t index);
 	Vector2 ComputeSeparation(std::size_t index);
-	Vector2 Seek(std::size_t index, Vector2 taget);
 private:
 	std::vector<Agent> agents;
 	Vector2 velocity;
