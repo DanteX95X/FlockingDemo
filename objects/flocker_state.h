@@ -10,7 +10,7 @@ class FlockerState : public State
 public:
 	FlockerState
 	(
-		double size, int agentsInRow, int agentsInColumn, 
+		double size, unsigned int agentsInRow, unsigned int agentsInColumn, 
 		double initSeekingWeight, double initSeparationWeight, double initAlignementWeight, double initCohesionWeight
 	);
 	
@@ -20,9 +20,9 @@ public:
 	
 	const std::vector<Agent>& GetAgents();
 	
-	Vector2 ComputeAlignement(std::size_t index);
-	Vector2 ComputeCohesion(std::size_t index);
-	Vector2 ComputeSeparation(std::size_t index);
+	Vector2 ComputeAlignement(Agent& agent);
+	Vector2 ComputeCohesion(Agent& agent);
+	Vector2 ComputeSeparation(Agent& agent);
 private:
 	std::vector<Agent> agents;
 	Vector2 velocity;
