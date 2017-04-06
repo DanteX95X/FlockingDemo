@@ -1,4 +1,5 @@
 #include "vector2.h"
+#define _USE_MATH_DEFINES
 #include <math.h>
 
 Vector2::Vector2(double xInit, double yInit)
