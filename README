@@ -1,0 +1,11 @@
+Flocking demo which I created for meeting of algorythimic section of KNTG Polygon.
+
+Instructions:
+1.To set up your project follow these tutorials:
+http://lazyfoo.net/tutorials/SDL/01_hello_SDL/index.php
+http://lazyfoo.net/tutorials/SDL/06_extension_libraries_and_loading_other_image_formats/index.php
+  1a.If you are using Windows system it would be best if you would place all headers from SDL2 and SDL2_image inside 'include/SDL2' directory and imported it into your project.
+2.Compile source code.
+  2a. If you are using Windows system, put all .dll files inside directory containing your executable file.
+3.Put 'agent.png' file inside directory containing your executable file.
+4.Now everything should be in order.
