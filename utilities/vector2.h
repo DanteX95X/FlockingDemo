@@ -10,6 +10,8 @@ public:
 	
 	Vector2 Normalize();
 	double Length();
+	Vector2 Rotate(double degrees);
+	void Limit(double maxLength);
 
 	Vector2& operator += (const Vector2& vector);
 	Vector2& operator -= (const Vector2& vector);

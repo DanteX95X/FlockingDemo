@@ -2,9 +2,13 @@
 #include "utilities/timer.h"
 #include "objects/agent.h"
 #include "objects/flock.h"
+#include <stdlib.h>
+#include <time.h>
 
 int main(int argc, char** argv)
 {	
+	srand(time(nullptr));
+	
 	bool isDone = false;
 	const int width = 1280;
 	const int height = 720;
@@ -12,7 +16,7 @@ int main(int argc, char** argv)
 	SDL_Event event;
 	Window window(width, height);
 	
-	Flock flock({width/2, height/2}, 19, 20, 20, 0.9, 1, 1, 0.7, 7);
+	Flock flock({width/2, height/2}, 19, 10, 10, 0.9, 1, 1, 0.7, 7);
 	
 	while( !isDone )
 	{

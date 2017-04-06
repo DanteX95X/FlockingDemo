@@ -23,6 +23,27 @@ double Vector2::Length()
 	return sqrt(x*x + y*y);
 }
 
+Vector2 Vector2::Rotate(double degrees)
+{
+	Vector2 result = *this;
+	double angle = degrees * M_PI / 180;
+	//result.x = cos(angle)*this->x - sin(angle)*this->y;
+	//result.y = sin(angle)*this->x + cos(angle)*this->y;
+	double length = result.Length();
+	result.x = cos(angle) * length;
+	result.y = sin(angle) * length;
+	return result;
+}
+
+void Vector2::Limit(double maxLength)
+{
+	if(Length() > maxLength)
+	{
+		Normalize();
+		*this *= maxLength;
+	}
+}
+
 Vector2& Vector2::operator += (const Vector2& vector)
 {
 	x += vector.x;
