@@ -21,6 +21,8 @@
     <File Name="objects/agent.cpp"/>
     <File Name="objects/flock.h"/>
     <File Name="objects/flock.cpp"/>
+    <File Name="objects/steering_object.h"/>
+    <File Name="objects/steering_object.cpp"/>
   </VirtualDirectory>
   <VirtualDirectory Name="utilities">
     <File Name="utilities/timer.h"/>

@@ -4,6 +4,7 @@
 #include "objects/flock.h"
 #include <stdlib.h>
 #include <time.h>
+#include "objects/steering_object.h"
 
 int main(int argc, char** argv)
 {	
@@ -16,7 +17,8 @@ int main(int argc, char** argv)
 	SDL_Event event;
 	Window window(width, height);
 	
-	Flock flock({width/2, height/2}, 19, 10, 10, 0.9, 1, 1, 0.7, 7);
+	//Flock flock({width/2, height/2}, 19, 10, 10, 0.9, 1, 1, 0.7, 7);
+	SteeringObject object{{width/2, height/2}, 19};
 	
 	while( !isDone )
 	{
@@ -26,14 +28,17 @@ int main(int argc, char** argv)
 			{
 				isDone = true;
 			}
-			flock.HandleEvents(event);
+			//flock.HandleEvents(event);
+			object.HandleEvents(event);
 		}
 
 		Timer::Instance().Update();
-		flock.Update();
+		//flock.Update();
+		object.Update();
 
 		SDL_RenderClear(window.GetRenderer());
-		flock.Render(window.GetRenderer());
+		//flock.Render(window.GetRenderer());
+		object.Render(window.GetRenderer());
 		SDL_RenderPresent(window.GetRenderer());
 	}
 

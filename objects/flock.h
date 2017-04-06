@@ -7,17 +7,6 @@
 
 class Flock : public Actor
 {
-	enum class State
-	{
-		SEEKING,
-		FLEEING,
-		ARRIVAL,
-		WANDERING,
-		PURSUIT,
-		EVASION,
-		FOLLOWING,
-		AVOIDING,
-	};
 	
 public:
 	Flock
@@ -49,8 +38,6 @@ private:
 	const double alignementWeight;
 	const double cohesionWeight;
 	const double proximityTolerance;
-	
-	State state;
 };
 
 

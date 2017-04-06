@@ -60,8 +60,8 @@ AS       := /usr/bin/as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/objects_prop.cpp$(ObjectSuffix) $(IntermediateDirectory)/objects_object.cpp$(ObjectSuffix) $(IntermediateDirectory)/objects_actor.cpp$(ObjectSuffix) $(IntermediateDirectory)/objects_agent.cpp$(ObjectSuffix) $(IntermediateDirectory)/objects_flock.cpp$(ObjectSuffix) $(IntermediateDirectory)/utilities_timer.cpp$(ObjectSuffix) $(IntermediateDirectory)/utilities_vector2.cpp$(ObjectSuffix) $(IntermediateDirectory)/utilities_texture_flyweight.cpp$(ObjectSuffix) $(IntermediateDirectory)/window_window.cpp$(ObjectSuffix) \
-	
+Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/objects_prop.cpp$(ObjectSuffix) $(IntermediateDirectory)/objects_object.cpp$(ObjectSuffix) $(IntermediateDirectory)/objects_actor.cpp$(ObjectSuffix) $(IntermediateDirectory)/objects_agent.cpp$(ObjectSuffix) $(IntermediateDirectory)/objects_flock.cpp$(ObjectSuffix) $(IntermediateDirectory)/objects_steering_object.cpp$(ObjectSuffix) $(IntermediateDirectory)/utilities_timer.cpp$(ObjectSuffix) $(IntermediateDirectory)/utilities_vector2.cpp$(ObjectSuffix) $(IntermediateDirectory)/utilities_texture_flyweight.cpp$(ObjectSuffix) \
+	$(IntermediateDirectory)/window_window.cpp$(ObjectSuffix) 
 
 
 
@@ -139,6 +139,14 @@ $(IntermediateDirectory)/objects_flock.cpp$(DependSuffix): objects/flock.cpp
 
 $(IntermediateDirectory)/objects_flock.cpp$(PreprocessSuffix): objects/flock.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/objects_flock.cpp$(PreprocessSuffix)objects/flock.cpp
+
+$(IntermediateDirectory)/objects_steering_object.cpp$(ObjectSuffix): objects/steering_object.cpp $(IntermediateDirectory)/objects_steering_object.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/dante/codelite/test/FlockingDemo/objects/steering_object.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/objects_steering_object.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/objects_steering_object.cpp$(DependSuffix): objects/steering_object.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/objects_steering_object.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/objects_steering_object.cpp$(DependSuffix) -MM objects/steering_object.cpp
+
+$(IntermediateDirectory)/objects_steering_object.cpp$(PreprocessSuffix): objects/steering_object.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/objects_steering_object.cpp$(PreprocessSuffix)objects/steering_object.cpp
 
 $(IntermediateDirectory)/utilities_timer.cpp$(ObjectSuffix): utilities/timer.cpp $(IntermediateDirectory)/utilities_timer.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/dante/codelite/test/FlockingDemo/utilities/timer.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/utilities_timer.cpp$(ObjectSuffix) $(IncludePath)
