@@ -116,7 +116,7 @@ Vector2 Agent::Evade(Agent& agent) const
 	return Flee(futurePosition);
 }
 
-Vector2 Agent::Follow(Agent& agent, double distance) const
+Vector2 Agent::Follow(Agent& agent, double distance, double arrivalRadius) const
 {	
 	const double sightRadius = agent.GetSize().x;
 	Vector2 displacement = -agent.GetVelocity();
@@ -131,7 +131,7 @@ Vector2 Agent::Follow(Agent& agent, double distance) const
 		steering += Evade(agent);
 	}
 	
-	steering += Arrive(behindLeader, 50);
+	steering += Arrive(behindLeader, arrivalRadius);
 	return steering;
 }
 

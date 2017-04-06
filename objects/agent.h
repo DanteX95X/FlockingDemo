@@ -24,7 +24,7 @@ public:
 	Vector2 Wander(double circleDistance, double circleRadius) const;
 	Vector2 Pursue(Agent& agent) const;
 	Vector2 Evade(Agent& agent) const;
-	Vector2 Follow(Agent& agent, double distance) const;
+	Vector2 Follow(Agent& agent, double distance, double arrivalRadius = 50) const;
 	Vector2 Avoid(Agent& agent, double distance, double maxAvoidForce) const;
 	
 	Vector2 GetVelocity() const;
